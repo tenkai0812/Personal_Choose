@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>產品名稱 — 一句話標語佔位</title>
+  <meta name="description" content="產品介紹落地頁佔位描述,之後替換為真實文案。">
+  <meta name="theme-color" content="#fdfbf7">
+
+  <!-- 字型:LXGW 文楷 TC(內文)+ 文楷等寬 TC(標題)
+       兩支 CSS 都以 unicode-range 切成 97 個子集、font-display: swap,
+       瀏覽器只下載頁面實際用到的字段;再用 media="print" → onload
+       讓字型 CSS 不阻塞首屏渲染。 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" media="print" onload="this.media='all'"
+        href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.2.0/lxgwwenkaitc-regular.css">
+  <link rel="stylesheet" media="print" onload="this.media='all'"
+        href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.2.0/lxgwwenkaitc-bold.css">
+  <link rel="stylesheet" media="print" onload="this.media='all'"
+        href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.2.0/lxgwwenkaimonotc-regular.css">
+  <noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.2.0/lxgwwenkaitc-regular.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.2.0/lxgwwenkaimonotc-regular.css">
+  </noscript>
+
+  <!-- tokens.css 必須排在 main.css 之前 -->
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/main.css">
+
+  <!-- 同步載入,在 body 繪製前套用主題,避免深色模式閃白 -->
+  <script src="scripts/theme.js"></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+
+  <!-- ====================================================================
+       導覽 bar · 玻璃(霧面版)
+       .glass 內四層結構固定,之後加 .glass--refraction 即可升級成折射,
+       HTML 不需要改。
+       ==================================================================== -->
+  <header class="site-header">
+    <nav class="nav glass glass--frosted" aria-label="主導覽">
+      <span class="glass__filter" aria-hidden="true"></span>
+      <span class="glass__tint" aria-hidden="true"></span>
+      <span class="glass__specular" aria-hidden="true"></span>
+
+      <div class="glass__content nav__inner">
+        <a class="nav__brand" href="#top">
+          <span class="nav__brand-mark" aria-hidden="true"></span>
+          品牌名稱
+        </a>
+
+        <ul class="nav__links">
+          <li><a class="nav__link" href="#features">功能</a></li>
+          <li><a class="nav__link" href="#pricing">定價</a></li>
+          <li><a class="nav__link" href="#faq">常見問題</a></li>
+        </ul>
+
+        <button class="theme-toggle" type="button" data-theme-toggle
+                aria-pressed="false" aria-label="切換為深色模式" title="切換為深色模式">
+          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ================================================================
+         Hero
+         ================================================================ -->
+    <section class="hero" id="top">
+      <div class="container hero__inner">
+        <h1 class="hero__title">產品名稱佔位</h1>
+        <p class="hero__tagline">
+          這裡放一句話標語佔位文字,說明產品為誰解決什麼問題。
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#pricing">主要行動呼籲</a>
+          <a class="btn btn--ghost" href="#features">次要連結佔位</a>
+        </div>
+        <p class="hero__note">補充說明佔位文字,例如免費試用或不需信用卡。</p>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         功能
+         ================================================================ -->
+    <section class="section section--tinted" id="features">
+      <div class="container">
+        <header class="section__head">
+          <span class="eyebrow">Features</span>
+          <h2 class="section__title">功能區標題佔位</h2>
+          <p class="section__lede">這段是功能區的引言佔位文字,一到兩句話帶出下面三張卡片。</p>
+        </header>
+
+        <div class="card-grid">
+          <article class="card">
+            <span class="card__icon" aria-hidden="true">01</span>
+            <h3 class="card__title">功能一</h3>
+            <p class="card__text">功能一的說明佔位文字,描述它做什麼、對使用者的價值是什麼。</p>
+          </article>
+
+          <article class="card">
+            <span class="card__icon" aria-hidden="true">02</span>
+            <h3 class="card__title">功能二</h3>
+            <p class="card__text">功能二的說明佔位文字,描述它做什麼、對使用者的價值是什麼。</p>
+          </article>
+
+          <article class="card">
+            <span class="card__icon" aria-hidden="true">03</span>
+            <h3 class="card__title">功能三</h3>
+            <p class="card__text">功能三的說明佔位文字,描述它做什麼、對使用者的價值是什麼。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         定價(留框佔位)
+         ================================================================ -->
+    <section class="section" id="pricing">
+      <div class="container">
+        <header class="section__head">
+          <span class="eyebrow">Pricing</span>
+          <h2 class="section__title">定價區標題佔位</h2>
+          <p class="section__lede">這段是定價區的引言佔位文字,方案內容之後再填。</p>
+        </header>
+
+        <div class="price-grid">
+          <article class="price-card">
+            <h3 class="price-card__name">方案一</h3>
+            <p class="price-card__amount">$00 <span class="price-card__period">/ 月</span></p>
+            <ul class="price-card__list">
+              <li>項目佔位</li>
+              <li>項目佔位</li>
+              <li>項目佔位</li>
+            </ul>
+            <div class="price-card__cta">
+              <a class="btn btn--ghost btn--block" href="#top">按鈕佔位</a>
+            </div>
+          </article>
+
+          <article class="price-card price-card--featured">
+            <span class="price-card__badge">推薦</span>
+            <h3 class="price-card__name">方案二</h3>
+            <p class="price-card__amount">$00 <span class="price-card__period">/ 月</span></p>
+            <ul class="price-card__list">
+              <li>項目佔位</li>
+              <li>項目佔位</li>
+              <li>項目佔位</li>
+            </ul>
+            <div class="price-card__cta">
+              <a class="btn btn--primary btn--block" href="#top">按鈕佔位</a>
+            </div>
+          </article>
+
+          <article class="price-card">
+            <h3 class="price-card__name">方案三</h3>
+            <p class="price-card__amount">洽詢</p>
+            <ul class="price-card__list">
+              <li>項目佔位</li>
+              <li>項目佔位</li>
+              <li>項目佔位</li>
+            </ul>
+            <div class="price-card__cta">
+              <a class="btn btn--ghost btn--block" href="#top">按鈕佔位</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         FAQ
+         ================================================================ -->
+    <section class="section section--tinted" id="faq">
+      <div class="container container--narrow">
+        <header class="section__head">
+          <span class="eyebrow">FAQ</span>
+          <h2 class="section__title">常見問題標題佔位</h2>
+        </header>
+
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary class="faq-item__q">
+              問題一佔位?
+              <span class="faq-item__sign" aria-hidden="true">+</span>
+            </summary>
+            <p class="faq-item__a">問題一的回答佔位文字,之後替換成真實內容。</p>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-item__q">
+              問題二佔位?
+              <span class="faq-item__sign" aria-hidden="true">+</span>
+            </summary>
+            <p class="faq-item__a">問題二的回答佔位文字,之後替換成真實內容。</p>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-item__q">
+              問題三佔位?
+              <span class="faq-item__sign" aria-hidden="true">+</span>
+            </summary>
+            <p class="faq-item__a">問題三的回答佔位文字,之後替換成真實內容。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================
+       Footer
+       ==================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__inner">
+        <div class="site-footer__brand">
+          <a class="nav__brand" href="#top">
+            <span class="nav__brand-mark" aria-hidden="true"></span>
+            品牌名稱
+          </a>
+          <p class="site-footer__tagline">頁尾標語佔位文字,一句話帶過產品定位。</p>
+        </div>
+
+        <div class="site-footer__cols">
+          <div>
+            <h2 class="site-footer__title">產品</h2>
+            <ul class="site-footer__list">
+              <li><a href="#features">連結佔位</a></li>
+              <li><a href="#pricing">連結佔位</a></li>
+              <li><a href="#faq">連結佔位</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="site-footer__title">其他</h2>
+            <ul class="site-footer__list">
+              <li><a href="#top">連結佔位</a></li>
+              <li><a href="#top">連結佔位</a></li>
+              <li><a href="#top">連結佔位</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="site-footer__bottom">
+        <span>© 2026 品牌名稱佔位</span>
+        <span>版權宣告佔位文字</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

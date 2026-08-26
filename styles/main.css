@@ -1,0 +1,749 @@
+/* ==========================================================================
+   main.css — 頁面樣式
+   --------------------------------------------------------------------------
+   規則:本檔不得出現任何硬色碼,顏色一律引用 tokens.css 的「語意變數」
+   (--bg / --surface / --text / --primary / --border / --glass-* …)。
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Reset / 基礎
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + var(--space-8));
+}
+
+body {
+  min-height: 100dvh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--f-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color var(--dur-slow) var(--ease-out),
+    color var(--dur-slow) var(--ease-out);
+}
+
+img,
+svg {
+  display: block;
+  max-inline-size: 100%;
+}
+
+a {
+  color: var(--primary);
+  text-decoration-color: var(--primary-line);
+  text-underline-offset: 0.25em;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--f-display);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+::selection {
+  background-color: var(--primary-soft);
+  color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   2. 版面工具
+   -------------------------------------------------------------------------- */
+.container {
+  inline-size: 100%;
+  max-inline-size: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.container--narrow {
+  max-inline-size: var(--container-narrow);
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.section--tinted {
+  background-color: var(--bg-subtle);
+}
+
+.section__head {
+  max-inline-size: 38rem;
+  margin-block-end: var(--space-12);
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-block-end: var(--space-4);
+  color: var(--primary);
+  font-family: var(--f-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.section__title {
+  font-size: var(--text-3xl);
+}
+
+.section__lede {
+  margin-block-start: var(--space-4);
+  color: var(--text-secondary);
+  font-size: var(--text-lg);
+}
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: var(--space-4);
+  inset-block-start: calc(var(--space-4) * -10);
+  z-index: calc(var(--z-nav) + 1);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface-raised);
+  box-shadow: var(--shadow-md);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.skip-link:focus-visible {
+  inset-block-start: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   3. 玻璃層(霧面版)
+   --------------------------------------------------------------------------
+   結構刻意分成四層,之後要加 Chromium 專屬折射時,
+   只需新增 .glass--refraction 並把 SVG 位移濾鏡掛在 .glass__filter 上,
+   HTML 完全不用動。
+
+   <div class="glass glass--frosted">
+     <span class="glass__filter"></span>    背景處理層(blur / 之後的 refraction)
+     <span class="glass__tint"></span>      色調層
+     <span class="glass__specular"></span>  邊緣高光 + 內描邊
+     <div class="glass__content"></div>     內容
+   </div>
+   -------------------------------------------------------------------------- */
+.glass {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass__filter,
+.glass__tint,
+.glass__specular {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.glass__filter {
+  z-index: 0;
+}
+
+.glass--frosted .glass__filter {
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}
+
+.glass__tint {
+  z-index: 1;
+  background-color: var(--glass-bg);
+}
+
+.glass__specular {
+  z-index: 2;
+  box-shadow: inset 0 1px 0 var(--glass-highlight),
+    inset 0 0 0 1px var(--glass-border);
+}
+
+.glass__content {
+  position: relative;
+  z-index: 3;
+}
+
+/* 不支援 backdrop-filter 時退回實心表面,確保可讀性 */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass__tint {
+    background-color: var(--surface-raised);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. 導覽 bar
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  inset-block-start: var(--space-4);
+  z-index: var(--z-nav);
+  padding-inline: var(--gutter);
+  margin-block-start: var(--space-4);
+}
+
+.nav {
+  inline-size: 100%;
+  max-inline-size: var(--container-max);
+  margin-inline: auto;
+  transition: box-shadow var(--dur-base) var(--ease-out);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  block-size: var(--nav-height);
+  padding-inline: var(--space-5);
+}
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text);
+  font-family: var(--f-display);
+  font-size: var(--text-lg);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav__brand-mark {
+  inline-size: 0.6rem;
+  block-size: 0.6rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--primary);
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-inline-start: auto;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav__links::-webkit-scrollbar {
+  display: none;
+}
+
+.nav__link {
+  display: inline-block;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.nav__link:hover {
+  background-color: var(--surface-muted);
+  color: var(--text);
+}
+
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background-color: var(--surface-raised);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.theme-toggle:hover {
+  border-color: var(--border-strong);
+  color: var(--primary);
+}
+
+.theme-toggle:active {
+  transform: scale(0.94);
+}
+
+.theme-toggle__icon {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 亮 / 暗圖示互斥顯示,狀態由 <html data-theme> 決定 */
+.theme-toggle__icon--moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle__icon--sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle__icon--moon {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle__icon--sun {
+    display: none;
+  }
+
+  :root:not([data-theme="light"]) .theme-toggle__icon--moon {
+    display: block;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Hero
+   -------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  padding-block: clamp(4rem, 10vw, 8rem) var(--section-y);
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset-block-start: -30%;
+  inset-inline-start: 50%;
+  z-index: 0;
+  inline-size: min(60rem, 120%);
+  aspect-ratio: 1;
+  translate: -50% 0;
+  border-radius: var(--radius-pill);
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--primary) 14%, transparent) 0%,
+    transparent 62%
+  );
+  pointer-events: none;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: var(--z-base);
+  text-align: center;
+}
+
+.hero__title {
+  font-size: var(--text-5xl);
+}
+
+.hero__tagline {
+  max-inline-size: 34rem;
+  margin: var(--space-6) auto 0;
+  color: var(--text-secondary);
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-block-start: var(--space-10);
+}
+
+.hero__note {
+  margin-block-start: var(--space-5);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+/* --------------------------------------------------------------------------
+   6. 按鈕
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-base);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--primary {
+  background-color: var(--primary);
+  color: var(--text-on-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--primary:hover {
+  background-color: var(--primary-hover);
+  color: var(--text-on-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.btn--ghost {
+  border-color: var(--border);
+  background-color: transparent;
+  color: var(--text-secondary);
+}
+
+.btn--ghost:hover {
+  border-color: var(--border-strong);
+  background-color: var(--surface);
+  color: var(--text);
+}
+
+.btn--block {
+  inline-size: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   7. 功能區
+   -------------------------------------------------------------------------- */
+.card-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-8);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-raised);
+  box-shadow: var(--shadow-xs);
+  transition: border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card__icon {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  margin-block-end: var(--space-2);
+  border-radius: var(--radius-md);
+  background-color: var(--primary-soft);
+  color: var(--primary);
+  font-family: var(--f-mono);
+  font-size: var(--text-lg);
+}
+
+.card__title {
+  font-size: var(--text-xl);
+}
+
+.card__text {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+}
+
+/* --------------------------------------------------------------------------
+   8. 定價(佔位框)
+   -------------------------------------------------------------------------- */
+.price-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  align-items: stretch;
+}
+
+.price-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-raised);
+}
+
+.price-card--featured {
+  border-color: var(--primary-line);
+  box-shadow: var(--shadow-md);
+}
+
+.price-card__badge {
+  align-self: flex-start;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background-color: var(--primary-soft);
+  color: var(--primary);
+  font-family: var(--f-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+}
+
+.price-card__name {
+  font-size: var(--text-lg);
+}
+
+.price-card__amount {
+  font-family: var(--f-display);
+  font-size: var(--text-3xl);
+  line-height: var(--leading-tight);
+}
+
+.price-card__period {
+  color: var(--text-muted);
+  font-family: var(--f-body);
+  font-size: var(--text-sm);
+}
+
+.price-card__list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  list-style: none;
+}
+
+.price-card__list li::before {
+  content: "—";
+  margin-inline-end: var(--space-2);
+  color: var(--text-muted);
+}
+
+.price-card__cta {
+  margin-block-start: auto;
+  padding-block-start: var(--space-4);
+}
+
+/* --------------------------------------------------------------------------
+   9. FAQ(原生 details,零 JS)
+   -------------------------------------------------------------------------- */
+.faq-list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.faq-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  overflow: hidden;
+}
+
+.faq-item__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  color: var(--text);
+  font-family: var(--f-display);
+  font-size: var(--text-lg);
+  cursor: pointer;
+  list-style: none;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.faq-item__q::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item__q:hover {
+  background-color: var(--surface);
+}
+
+.faq-item__sign {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-family: var(--f-mono);
+  transition: rotate var(--dur-base) var(--ease-out);
+}
+
+.faq-item[open] .faq-item__sign {
+  rotate: 45deg;
+}
+
+.faq-item__a {
+  padding: 0 var(--space-6) var(--space-6);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+}
+
+/* --------------------------------------------------------------------------
+   10. Footer
+   -------------------------------------------------------------------------- */
+.site-footer {
+  border-block-start: 1px solid var(--border);
+  background-color: var(--bg-subtle);
+  padding-block: var(--space-12);
+}
+
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  justify-content: space-between;
+}
+
+.site-footer__brand {
+  max-inline-size: 20rem;
+}
+
+.site-footer__tagline {
+  margin-block-start: var(--space-3);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.site-footer__cols {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+}
+
+.site-footer__title {
+  margin-block-end: var(--space-3);
+  color: var(--text-muted);
+  font-family: var(--f-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.site-footer__list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+.site-footer__list a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.site-footer__list a:hover {
+  color: var(--primary);
+}
+
+.site-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: space-between;
+  margin-block-start: var(--space-12);
+  padding-block-start: var(--space-6);
+  border-block-start: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+}
+
+/* --------------------------------------------------------------------------
+   11. 響應式微調
+   -------------------------------------------------------------------------- */
+@media (max-width: 40rem) {
+  .nav__inner {
+    padding-inline: var(--space-4);
+  }
+
+  .nav__links {
+    gap: 0;
+  }
+
+  .nav__link {
+    padding-inline: var(--space-2);
+  }
+
+  .card,
+  .price-card {
+    padding: var(--space-6);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   12. 動態偏好
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

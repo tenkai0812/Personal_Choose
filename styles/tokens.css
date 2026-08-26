@@ -1,0 +1,262 @@
+/* ==========================================================================
+   tokens.css — 設計 Token 單一來源
+   --------------------------------------------------------------------------
+   分兩層:
+   1) 原始層 (--c-* / --f-* …):唯一可以出現硬色碼的地方。
+   2) 語意層 (--bg / --surface / --text / --primary …):頁面 CSS 只能用這層。
+   深色模式只覆寫「語意層」,原始層永遠不動。
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. 原始層 · 色票
+   -------------------------------------------------------------------------- */
+:root {
+  /* 紙感底色與墨色錨點 */
+  --c-paper: #fdfbf7;          /* 暖白象牙 */
+  --c-ink: #26231f;            /* 暖黑 */
+
+  /* 暖灰 6 階(淺 → 深) */
+  --c-warm-100: #f7f3ec;
+  --c-warm-200: #efe9df;
+  --c-warm-300: #e2dbcf;
+  --c-warm-400: #c4baa9;
+  --c-warm-500: #776e60;
+  --c-warm-600: #4a443b;
+
+  /* 深色模式基底 4 階(深 → 淺) */
+  --c-ink-900: #1a1714;
+  --c-ink-800: #24201b;
+  --c-ink-700: #2c271f;
+  --c-ink-600: #38322a;
+
+  /* 深色模式文字階 */
+  --c-cream-100: #ede7dd;
+  --c-cream-300: #b5ac9d;
+  --c-cream-500: #9c9284;
+
+  /* 主色 · 磚紅 / 赤陶橘 */
+  --c-terracotta-100: #f5e6dd;
+  --c-terracotta-300: #efa486;
+  --c-terracotta-400: #e3906f;
+  --c-terracotta-500: #c15f3c;
+  --c-terracotta-600: #ad5130;
+  --c-terracotta-700: #8f3f23;
+
+  /* 透明疊層(玻璃 / 陰影用) */
+  --c-white-a90: rgb(255 255 255 / 0.9);
+  --c-white-a55: rgb(255 255 255 / 0.55);
+  --c-white-a22: rgb(255 255 255 / 0.22);
+  --c-white-a10: rgb(255 255 255 / 0.1);
+  --c-paper-a72: rgb(253 251 247 / 0.72);
+  --c-ink-a62: rgb(31 28 24 / 0.62);
+  --c-shadow-warm: 61 48 36;   /* rgb 分量,供 rgb(… / α) 組合 */
+  --c-shadow-deep: 0 0 0;
+}
+
+/* --------------------------------------------------------------------------
+   2. 原始層 · 字型 / 尺度 / 圓角 / 動態
+   -------------------------------------------------------------------------- */
+:root {
+  /* 字型家族 */
+  --f-display: "LXGW WenKai Mono TC", "LXGW WenKai TC", "Noto Serif TC",
+    "PingFang TC", "Microsoft JhengHei", serif;
+  --f-body: "LXGW WenKai TC", "Noto Sans TC", "PingFang TC",
+    "Microsoft JhengHei", system-ui, sans-serif;
+  --f-mono: "LXGW WenKai Mono TC", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* 字級(流體) */
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.1875rem;
+  --text-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.3rem + 0.9vw, 1.875rem);
+  --text-3xl: clamp(1.875rem, 1.5rem + 1.6vw, 2.5rem);
+  --text-4xl: clamp(2.25rem, 1.7rem + 2.4vw, 3.25rem);
+  --text-5xl: clamp(2.75rem, 1.9rem + 3.6vw, 4.25rem);
+
+  /* 行高 / 字距 */
+  --leading-tight: 1.25;
+  --leading-snug: 1.45;
+  --leading-normal: 1.75;
+  --leading-loose: 1.9;
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.08em;
+
+  /* 字重(渦鯨字重只有 300/400/700,避免瀏覽器合成假粗體) */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-bold: 700;
+
+  /* 間距(4px 基準) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* 版面 */
+  --container-max: 68rem;
+  --container-narrow: 46rem;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --section-y: clamp(4rem, 9vw, 7.5rem);
+  --nav-height: 4rem;
+
+  /* 圓角 */
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.625rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-pill: 999px;
+
+  /* 玻璃參數 */
+  --glass-blur: 16px;
+  --glass-saturate: 180%;
+
+  /* 動態 */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-slow: 420ms;
+
+  /* 層級 */
+  --z-base: 1;
+  --z-nav: 100;
+}
+
+/* --------------------------------------------------------------------------
+   3. 語意層 · 淺色(預設)
+   -------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  /* 背景與表面 */
+  --bg: var(--c-paper);
+  --bg-subtle: var(--c-warm-100);
+  --surface: var(--c-warm-100);
+  --surface-raised: var(--c-paper);
+  --surface-muted: var(--c-warm-200);
+
+  /* 文字 */
+  --text: var(--c-ink);
+  --text-secondary: var(--c-warm-600);
+  --text-muted: var(--c-warm-500);
+  --text-on-primary: var(--c-paper);
+
+  /* 主色 */
+  --primary: var(--c-terracotta-600);
+  --primary-hover: var(--c-terracotta-700);
+  --primary-soft: var(--c-terracotta-100);
+  --primary-line: var(--c-terracotta-500);
+
+  /* 線條 */
+  --border: var(--c-warm-300);
+  --border-strong: var(--c-warm-400);
+
+  /* 陰影 */
+  --shadow-xs: 0 1px 2px rgb(var(--c-shadow-warm) / 0.06);
+  --shadow-sm: 0 2px 6px rgb(var(--c-shadow-warm) / 0.07);
+  --shadow-md: 0 6px 18px rgb(var(--c-shadow-warm) / 0.09);
+  --shadow-lg: 0 18px 48px rgb(var(--c-shadow-warm) / 0.12);
+
+  /* 玻璃 */
+  --glass-bg: var(--c-paper-a72);
+  --glass-border: var(--c-white-a55);
+  --glass-highlight: var(--c-white-a90);
+  --glass-shadow: 0 8px 32px rgb(var(--c-shadow-warm) / 0.12),
+    0 1px 2px rgb(var(--c-shadow-warm) / 0.06);
+
+  /* 焦點 */
+  --focus-ring: var(--c-terracotta-500);
+}
+
+/* --------------------------------------------------------------------------
+   4. 語意層 · 深色
+   --------------------------------------------------------------------------
+   同一組語意變數,只換值:
+   - 系統偏好深色、且使用者沒手動選淺色 → 自動深色
+   - [data-theme="dark"] → 手動指定,優先權最高
+   -------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg: var(--c-ink-900);
+    --bg-subtle: var(--c-ink-800);
+    --surface: var(--c-ink-800);
+    --surface-raised: var(--c-ink-700);
+    --surface-muted: var(--c-ink-700);
+
+    --text: var(--c-cream-100);
+    --text-secondary: var(--c-cream-300);
+    --text-muted: var(--c-cream-500);
+    --text-on-primary: var(--c-ink-900);
+
+    --primary: var(--c-terracotta-400);
+    --primary-hover: var(--c-terracotta-300);
+    --primary-soft: var(--c-ink-600);
+    --primary-line: var(--c-terracotta-400);
+
+    --border: var(--c-ink-600);
+    --border-strong: var(--c-warm-600);
+
+    --shadow-xs: 0 1px 2px rgb(var(--c-shadow-deep) / 0.3);
+    --shadow-sm: 0 2px 6px rgb(var(--c-shadow-deep) / 0.35);
+    --shadow-md: 0 6px 18px rgb(var(--c-shadow-deep) / 0.4);
+    --shadow-lg: 0 18px 48px rgb(var(--c-shadow-deep) / 0.5);
+
+    --glass-bg: var(--c-ink-a62);
+    --glass-border: var(--c-white-a10);
+    --glass-highlight: var(--c-white-a22);
+    --glass-shadow: 0 8px 32px rgb(var(--c-shadow-deep) / 0.45),
+      0 1px 2px rgb(var(--c-shadow-deep) / 0.3);
+
+    --focus-ring: var(--c-terracotta-300);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: var(--c-ink-900);
+  --bg-subtle: var(--c-ink-800);
+  --surface: var(--c-ink-800);
+  --surface-raised: var(--c-ink-700);
+  --surface-muted: var(--c-ink-700);
+
+  --text: var(--c-cream-100);
+  --text-secondary: var(--c-cream-300);
+  --text-muted: var(--c-cream-500);
+  --text-on-primary: var(--c-ink-900);
+
+  --primary: var(--c-terracotta-400);
+  --primary-hover: var(--c-terracotta-300);
+  --primary-soft: var(--c-ink-600);
+  --primary-line: var(--c-terracotta-400);
+
+  --border: var(--c-ink-600);
+  --border-strong: var(--c-warm-600);
+
+  --shadow-xs: 0 1px 2px rgb(var(--c-shadow-deep) / 0.3);
+  --shadow-sm: 0 2px 6px rgb(var(--c-shadow-deep) / 0.35);
+  --shadow-md: 0 6px 18px rgb(var(--c-shadow-deep) / 0.4);
+  --shadow-lg: 0 18px 48px rgb(var(--c-shadow-deep) / 0.5);
+
+  --glass-bg: var(--c-ink-a62);
+  --glass-border: var(--c-white-a10);
+  --glass-highlight: var(--c-white-a22);
+  --glass-shadow: 0 8px 32px rgb(var(--c-shadow-deep) / 0.45),
+    0 1px 2px rgb(var(--c-shadow-deep) / 0.3);
+
+  --focus-ring: var(--c-terracotta-300);
+}
