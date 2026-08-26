@@ -34,13 +34,21 @@
   --c-cream-300: #b5ac9d;
   --c-cream-500: #9c9284;
 
-  /* 主色 · 磚紅 / 赤陶橘 */
-  --c-terracotta-100: #f5e6dd;
-  --c-terracotta-300: #efa486;
-  --c-terracotta-400: #e3906f;
-  --c-terracotta-500: #c15f3c;
-  --c-terracotta-600: #ad5130;
-  --c-terracotta-700: #8f3f23;
+  /* 主色 · Pantone 16-3815 TCX Viola
+     色相全部鎖在 OKLCH H=307.5°,只掃亮度與彩度長出色階。
+     400 是 Viola 原色;淺色模式用不了它(配象牙底只有 2.73),
+     所以淺色模式主色落在 600。
+     200 / 800 是分隔線與 hover 加深用的中段,對比不足以承載文字,
+     也不可用於焦點框等必要邊界。 */
+  --c-brand-100: #f4edfc;   /* oklch(95.6% 0.021 307.5) 淺色淡底 */
+  --c-brand-200: #d7cbe4;   /* oklch(85.9% 0.036 307.5) 淺色分隔線 / 淡底 hover */
+  --c-brand-300: #b9a7cb;   /* oklch(75.6% 0.054 307.5) 深色 hover */
+  --c-brand-400: #a692ba;   /* oklch(69.1% 0.062 307.5) Viola 原色 · 深色主色 */
+  --c-brand-500: #8a6da5;   /* oklch(58.4% 0.090 307.5) 裝飾線 / 焦點框 */
+  --c-brand-600: #7e5f9a;   /* oklch(54.1% 0.096 307.5) 淺色主色 */
+  --c-brand-700: #664c7e;   /* oklch(46.5% 0.084 307.5) 淺色 hover */
+  --c-brand-800: #4c385f;   /* oklch(38.0% 0.069 307.5) 深色分隔線 / 淡底 hover */
+  --c-brand-900: #352643;   /* oklch(30.0% 0.054 307.5) 深色淡底 */
 
   /* 透明疊層(玻璃 / 陰影用) */
   --c-white-a90: rgb(255 255 255 / 0.9);
@@ -154,10 +162,10 @@
   --text-on-primary: var(--c-paper);
 
   /* 主色 */
-  --primary: var(--c-terracotta-600);
-  --primary-hover: var(--c-terracotta-700);
-  --primary-soft: var(--c-terracotta-100);
-  --primary-line: var(--c-terracotta-500);
+  --primary: var(--c-brand-600);
+  --primary-hover: var(--c-brand-700);
+  --primary-soft: var(--c-brand-100);
+  --primary-line: var(--c-brand-500);
 
   /* 線條 */
   --border: var(--c-warm-300);
@@ -177,7 +185,7 @@
     0 1px 2px rgb(var(--c-shadow-warm) / 0.06);
 
   /* 焦點 */
-  --focus-ring: var(--c-terracotta-500);
+  --focus-ring: var(--c-brand-500);
 }
 
 /* --------------------------------------------------------------------------
@@ -202,10 +210,10 @@
     --text-muted: var(--c-cream-500);
     --text-on-primary: var(--c-ink-900);
 
-    --primary: var(--c-terracotta-400);
-    --primary-hover: var(--c-terracotta-300);
-    --primary-soft: var(--c-ink-600);
-    --primary-line: var(--c-terracotta-400);
+    --primary: var(--c-brand-400);
+    --primary-hover: var(--c-brand-300);
+    --primary-soft: var(--c-brand-900);
+    --primary-line: var(--c-brand-400);
 
     --border: var(--c-ink-600);
     --border-strong: var(--c-warm-600);
@@ -221,7 +229,7 @@
     --glass-shadow: 0 8px 32px rgb(var(--c-shadow-deep) / 0.45),
       0 1px 2px rgb(var(--c-shadow-deep) / 0.3);
 
-    --focus-ring: var(--c-terracotta-300);
+    --focus-ring: var(--c-brand-300);
   }
 }
 
@@ -239,10 +247,10 @@
   --text-muted: var(--c-cream-500);
   --text-on-primary: var(--c-ink-900);
 
-  --primary: var(--c-terracotta-400);
-  --primary-hover: var(--c-terracotta-300);
-  --primary-soft: var(--c-ink-600);
-  --primary-line: var(--c-terracotta-400);
+  --primary: var(--c-brand-400);
+  --primary-hover: var(--c-brand-300);
+  --primary-soft: var(--c-brand-900);
+  --primary-line: var(--c-brand-400);
 
   --border: var(--c-ink-600);
   --border-strong: var(--c-warm-600);
@@ -258,5 +266,5 @@
   --glass-shadow: 0 8px 32px rgb(var(--c-shadow-deep) / 0.45),
     0 1px 2px rgb(var(--c-shadow-deep) / 0.3);
 
-  --focus-ring: var(--c-terracotta-300);
+  --focus-ring: var(--c-brand-300);
 }
