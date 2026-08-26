@@ -45,6 +45,12 @@ svg {
   max-inline-size: 100%;
 }
 
+/* 本檔多處用 display 指定版面,必須讓 hidden 屬性贏過那些宣告,
+   漢堡選單才能靠 hidden 真正從無障礙樹與 Tab 序中移除。 */
+[hidden] {
+  display: none !important;
+}
+
 a {
   color: var(--primary);
   text-decoration-color: var(--primary-line);
@@ -288,7 +294,8 @@ p {
   color: var(--text);
 }
 
-.theme-toggle {
+/* 導覽列圓形圖示鈕:主題切換與漢堡鈕共用外觀 */
+.nav__btn {
   display: inline-grid;
   place-items: center;
   inline-size: 2.25rem;
@@ -305,16 +312,16 @@ p {
     transform var(--dur-fast) var(--ease-out);
 }
 
-.theme-toggle:hover {
+.nav__btn:hover {
   border-color: var(--border-strong);
   color: var(--primary);
 }
 
-.theme-toggle:active {
+.nav__btn:active {
   transform: scale(0.94);
 }
 
-.theme-toggle__icon {
+.nav__icon {
   inline-size: 1.125rem;
   block-size: 1.125rem;
   fill: none;
@@ -325,26 +332,43 @@ p {
 }
 
 /* 亮 / 暗圖示互斥顯示,狀態由 <html data-theme> 決定 */
-.theme-toggle__icon--moon {
+.nav__icon--moon {
   display: none;
 }
 
-:root[data-theme="dark"] .theme-toggle__icon--sun {
+:root[data-theme="dark"] .nav__icon--sun {
   display: none;
 }
 
-:root[data-theme="dark"] .theme-toggle__icon--moon {
+:root[data-theme="dark"] .nav__icon--moon {
   display: block;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle__icon--sun {
+  :root:not([data-theme="light"]) .nav__icon--sun {
     display: none;
   }
 
-  :root:not([data-theme="light"]) .theme-toggle__icon--moon {
+  :root:not([data-theme="light"]) .nav__icon--moon {
     display: block;
   }
+}
+
+/* 漢堡鈕:預設不存在,只有窄螢幕 + JS 可用(.nav--js)時才出現 */
+.nav__burger {
+  display: none;
+}
+
+.nav__icon--close {
+  display: none;
+}
+
+.nav__burger[aria-expanded="true"] .nav__icon--menu {
+  display: none;
+}
+
+.nav__burger[aria-expanded="true"] .nav__icon--close {
+  display: block;
 }
 
 /* --------------------------------------------------------------------------
@@ -712,22 +736,77 @@ p {
 /* --------------------------------------------------------------------------
    11. 響應式微調
    -------------------------------------------------------------------------- */
+/* 斷點與 scripts/nav.js 的 NARROW 常數必須一致 */
 @media (max-width: 40rem) {
-  .nav__inner {
-    padding-inline: var(--space-4);
+  /* 收合時 2rem 圓角 = 4rem 列高的一半,外觀仍是膠囊;
+     展開後自然變成圓角卡片。 */
+  .nav {
+    border-radius: var(--radius-xl);
   }
 
+  .nav--js .nav__burger {
+    display: inline-grid;
+  }
+
+  .nav__inner {
+    flex-wrap: wrap;
+    align-content: center;
+    gap: var(--space-2);
+    block-size: auto;
+    min-block-size: var(--nav-height);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .nav__brand {
+    order: 1;
+  }
+
+  .theme-toggle {
+    order: 2;
+    margin-inline-start: auto;
+  }
+
+  .nav__burger {
+    order: 3;
+  }
+
+  /* 換行成整列面板 */
   .nav__links {
-    gap: 0;
+    order: 4;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+    margin-inline-start: 0;
+    margin-block-start: var(--space-2);
+    padding-block-start: var(--space-3);
+    border-block-start: 1px solid var(--border);
+    overflow: visible;
+    animation: nav-menu-in var(--dur-base) var(--ease-out) both;
   }
 
   .nav__link {
-    padding-inline: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-base);
+    line-height: var(--leading-snug);
   }
 
   .card,
   .price-card {
     padding: var(--space-6);
+  }
+}
+
+@keyframes nav-menu-in {
+  from {
+    opacity: 0;
+    translate: 0 -0.375rem;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
   }
 }
 

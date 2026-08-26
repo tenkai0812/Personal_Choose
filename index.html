@@ -29,6 +29,8 @@
 
   <!-- 同步載入,在 body 繪製前套用主題,避免深色模式閃白 -->
   <script src="scripts/theme.js"></script>
+  <!-- 漢堡選單不影響首屏,延後執行 -->
+  <script src="scripts/nav.js" defer></script>
 </head>
 
 <body>
@@ -40,7 +42,7 @@
        HTML 不需要改。
        ==================================================================== -->
   <header class="site-header">
-    <nav class="nav glass glass--frosted" aria-label="主導覽">
+    <nav class="nav glass glass--frosted" aria-label="主導覽" data-nav>
       <span class="glass__filter" aria-hidden="true"></span>
       <span class="glass__tint" aria-hidden="true"></span>
       <span class="glass__specular" aria-hidden="true"></span>
@@ -51,20 +53,33 @@
           品牌名稱
         </a>
 
-        <ul class="nav__links">
+        <ul class="nav__links" id="nav-menu" data-nav-menu>
           <li><a class="nav__link" href="#features">功能</a></li>
           <li><a class="nav__link" href="#pricing">定價</a></li>
           <li><a class="nav__link" href="#faq">常見問題</a></li>
         </ul>
 
-        <button class="theme-toggle" type="button" data-theme-toggle
+        <button class="nav__btn theme-toggle" type="button" data-theme-toggle
                 aria-pressed="false" aria-label="切換為深色模式" title="切換為深色模式">
-          <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="nav__icon nav__icon--sun" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="4"></circle>
             <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
           </svg>
-          <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="nav__icon nav__icon--moon" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"></path>
+          </svg>
+        </button>
+
+        <!-- 漢堡鈕:CSS 預設 display:none,由 nav.js 加上 .nav--js 後才在窄螢幕出現。
+             沒有 JS 時它不會顯示,選單連結維持展開可用。 -->
+        <button class="nav__btn nav__burger" type="button" data-nav-burger
+                aria-expanded="false" aria-controls="nav-menu"
+                aria-label="開啟選單" title="開啟選單">
+          <svg class="nav__icon nav__icon--menu" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+          <svg class="nav__icon nav__icon--close" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18"></path>
           </svg>
         </button>
       </div>
