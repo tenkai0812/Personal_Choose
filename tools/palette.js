@@ -103,9 +103,18 @@ function resolve(name, ctx, seen = new Set()) {
   return m ? resolve(m[1], ctx, seen) : value;
 }
 
-function loadContexts() {
+/**
+ * @param {string|null} overridePath 額外疊上去的覆寫檔。用於 A/B 一組還沒進
+ *   tokens.css 的候選值(例如中性色冷暖比對),檔內所有區塊一律視為原始層覆寫,
+ *   不看選擇器,淺深兩個模式都會吃到。
+ */
+function loadContexts(overridePath) {
   const blocks = parseBlocks(fs.readFileSync(TOKENS_PATH, "utf8"));
   const light = mergeBlocks(blocks, s => s === ":root");
+  if (overridePath) {
+    const extra = parseBlocks(fs.readFileSync(overridePath, "utf8"));
+    Object.assign(light, mergeBlocks(extra, () => true));
+  }
   const darkAttr = mergeBlocks(blocks, s => s === ':root[data-theme="dark"]');
   const darkMedia = mergeBlocks(blocks, s => s.includes('data-theme="light"'));
   return { light, dark: Object.assign({}, light, darkAttr), darkAttr, darkMedia };
@@ -135,9 +144,9 @@ function runChecks(label, ctx) {
   return failed;
 }
 
-function cmdCheck() {
-  const { light, dark, darkAttr, darkMedia } = loadContexts();
-  console.log("讀取:styles/tokens.css");
+function cmdCheck(overridePath) {
+  const { light, dark, darkAttr, darkMedia } = loadContexts(overridePath);
+  console.log("讀取:styles/tokens.css" + (overridePath ? "  +覆寫:" + overridePath : ""));
 
   let failed = runChecks("淺色模式", light) + runChecks("深色模式", dark);
 
@@ -221,20 +230,21 @@ function cmdRamp(hex) {
 function help() {
   console.log(`
 用法:
-  node tools/palette.js check          驗證 tokens.css 現況
+  node tools/palette.js check [css]    驗證 tokens.css 現況,可加一個覆寫檔一起驗
   node tools/palette.js inspect <hex>  查一個色的 OKLCH 與適合的位置
   node tools/palette.js ramp <hex>     用該色生九階
 
 範例:
   node tools/palette.js inspect "#A692BA"
   node tools/palette.js ramp "#A692BA"
+  node tools/palette.js check styles/tokens-cool.css
 `);
 }
 
 const [command, argument] = process.argv.slice(2);
 
 try {
-  if (command === "check") cmdCheck();
+  if (command === "check") cmdCheck(argument || null);
   else if (command === "inspect" && argument) cmdInspect(argument);
   else if (command === "ramp" && argument) cmdRamp(argument);
   else help();

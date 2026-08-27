@@ -1,42 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="_圖層_1" data-name="圖層_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
-  <!-- Generator: Adobe Illustrator 29.8.9, SVG Export Plug-In . SVG Version: 2.1.1 Build 1)  -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="94 88 336 336">
   <defs>
-    <style>
-      .st0 {
-        fill: url(#_未命名漸層_2251);
-      }
-
-      .st1 {
-        fill: url(#_未命名漸層_2253);
-      }
-
-      .st2 {
-        fill: url(#_未命名漸層_2252);
-      }
-
-      .st3 {
-        fill: url(#_未命名漸層_225);
-      }
-    </style>
-    <linearGradient id="_未命名漸層_225" data-name="未命名漸層 225" x1="223.34" y1="133.77" x2="304.44" y2="214.87" gradientTransform="translate(524.18 512) rotate(-180)" gradientUnits="userSpaceOnUse">
+    <linearGradient id="g-base" x1="223.34" y1="133.77" x2="304.44" y2="214.87" gradientTransform="translate(524.18 512) rotate(-180)" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#d7cbe4"/>
       <stop offset="1" stop-color="#7e5f9a"/>
     </linearGradient>
-    <linearGradient id="_未命名漸層_2251" data-name="未命名漸層 225" x1="223.34" y1="133.77" x2="304.44" y2="214.87" gradientTransform="translate(5.85 518.33) rotate(-90)" xlink:href="#_未命名漸層_225"/>
-    <linearGradient id="_未命名漸層_2252" data-name="未命名漸層 225" x1="223.34" y1="133.77" x2="304.44" y2="214.87" gradientTransform="translate(-.47 0)" xlink:href="#_未命名漸層_225"/>
-    <linearGradient id="_未命名漸層_2253" data-name="未命名漸層 225" x2="304.44" y2="214.87" gradientTransform="translate(517.86 -6.33) rotate(90)" xlink:href="#_未命名漸層_225"/>
+    <linearGradient id="g1" x1="223.34" y1="133.77" x2="304.44" y2="214.87" gradientTransform="translate(5.85 518.33) rotate(-90)" xlink:href="#g-base"/>
+    <linearGradient id="g2" x1="223.34" y1="133.77" x2="304.44" y2="214.87" gradientTransform="translate(-.47 0)" xlink:href="#g-base"/>
+    <linearGradient id="g3" x2="304.44" y2="214.87" gradientTransform="translate(517.86 -6.33) rotate(90)" xlink:href="#g-base"/>
   </defs>
-  <g id="_x3C_放射狀重複_x3E_">
-    <path class="st3" d="M189.15,327.72c18.54,49.09,70.96,85.83,70.96,85.83,0,0,51.83-34.45,72.5-82.68l-70.45-71.4-73.01,68.24Z"/>
-  </g>
-  <g id="_x3C_放射狀重複_x3E_1" data-name="_x3C_放射狀重複_x3E_">
-    <path class="st0" d="M190.14,183.3c-49.09,18.54-85.83,70.96-85.83,70.96,0,0,34.45,51.83,82.68,72.5l71.4-70.45-68.24-73.01Z"/>
-  </g>
-  <g id="_x3C_放射狀重複_x3E_2" data-name="_x3C_放射狀重複_x3E_">
-    <path class="st2" d="M334.56,184.28c-18.54-49.09-70.96-85.83-70.96-85.83,0,0-51.83,34.45-72.5,82.68l70.45,71.4,73.01-68.24Z"/>
-  </g>
-  <g id="_x3C_放射狀重複_x3E_3" data-name="_x3C_放射狀重複_x3E_">
-    <path class="st1" d="M333.58,328.7c49.09-18.54,85.83-70.96,85.83-70.96,0,0-34.45-51.83-82.68-72.5l-71.4,70.45,68.24,73.01Z"/>
-  </g>
+  <path fill="url(#g-base)" d="M189.15,327.72c18.54,49.09,70.96,85.83,70.96,85.83,0,0,51.83-34.45,72.5-82.68l-70.45-71.4-73.01,68.24Z"/>
+  <path fill="url(#g1)" d="M190.14,183.3c-49.09,18.54-85.83,70.96-85.83,70.96,0,0,34.45,51.83,82.68,72.5l71.4-70.45-68.24-73.01Z"/>
+  <path fill="url(#g2)" d="M334.56,184.28c-18.54-49.09-70.96-85.83-70.96-85.83,0,0-51.83,34.45-72.5,82.68l70.45,71.4,73.01-68.24Z"/>
+  <path fill="url(#g3)" d="M333.58,328.7c49.09-18.54,85.83-70.96,85.83-70.96,0,0-34.45-51.83-82.68-72.5l-71.4,70.45,68.24,73.01Z"/>
 </svg>
